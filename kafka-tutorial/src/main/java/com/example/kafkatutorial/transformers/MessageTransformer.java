@@ -7,12 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageTransformer {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
-
     @Autowired
-    public MessageTransformer(KafkaTemplate<String, String> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendMessage(String topic, String msg) {
         kafkaTemplate.send(topic, msg);

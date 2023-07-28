@@ -4,6 +4,7 @@ import com.example.kafkatutorial.model.Student;
 import com.example.kafkatutorial.transformers.MessageTransformer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,29 +12,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/producer")
 public class ProducerController {
 
-    private final MessageTransformer transformer;
-
     @Autowired
-    public ProducerController(MessageTransformer transformer) {
-        this.transformer = transformer;
-    }
+    private MessageTransformer transformer;
 
-    @PostMapping("/send-message")
-    public void sendMessage(@RequestParam("message") String message) {
-        transformer.sendMessage("student", message);
-    }
-
-    @PostMapping("/send-message-2")
+    @PostMapping("/send")
     public void sendMessage(@RequestBody Student student) {
         ObjectMapper objectMapper = new ObjectMapper();
         String message;
         try {
             message = objectMapper.writeValueAsString(student);
+            transformer.sendMessage("student", message);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        transformer.sendMessage("student", message);
     }
-
-
 }
