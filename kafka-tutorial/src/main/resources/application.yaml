@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/kafka_demo
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+kafka-tutorial:
+  topic: littlecrochet
+  retry: RETRY
+  dlt: DTL
+  bootstrap-server: 127.0.0.1:39092, 127.0.0.1:29092
+  consumer:
+    group-id: group-id
+    auto:
+      commit:
+        interval:
+          ms: 100
+      offset:
+        reset: earliest
+    session:
+      timeout:
+        ms: 15000
+  producer:
+    acks: all
+    retries: 10
+    retry:
+      backoff:
+        ms: 1000
+
+
